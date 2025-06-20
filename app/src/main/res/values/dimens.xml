@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="Text_Screensaver_40dp">40sp</dimen>
+    <dimen name="posts_avatar_size_48dp">48dp</dimen>
+    <dimen name="general_spacing_16dp">16dp</dimen>
+    <dimen name="indent_16dp">16dp</dimen>
 </resources>

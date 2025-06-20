@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name" translatable="false">NMedia2</string>
     <string name="nmedia2">Hello NMedia2!</string>
+    <string name="description_post_author_avatar">avatar author</string>
+    <string name="description_menu_button">menu button</string>
+    <string name="likes_amount" translatable="false">555</string>
+    <string name="description_likes_button">likes button</string>
+    <string name="description_views">icon_count_views</string>
+    <string name="views_amount" translatable="false">333</string>
+    <string name="description_share_button">share button</string>
+    <string name="share_amount" translatable="false">777</string>
 </resources>
