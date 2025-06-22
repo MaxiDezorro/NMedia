@@ -1,15 +1,110 @@
 package ru.netology.nmedia2
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import ru.netology.nmedia2.databinding.ActivityMainBinding
+import ru.netology.nmedia2.dto.Post
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        val binding =
+            ActivityMainBinding.inflate(layoutInflater) // генерируется класс ActivityMainBinding по имени activity_main.xml
+        // в метод inflate передаем (layoutInflater) - поле класса AppCompatActivity - создает вью по разметке
+        setContentView(binding.root) // предаем binding с корневой вью идентификатор root
+
+        val post = Post(
+            id = 1,
+            author = "Нетология. Университет интернет-профессий будущего",
+            published = "21 мая в 18:36",
+            content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb"
+        )
+
+        with(binding) { // обращаемся ко всем полям binding (вместо binding.author.text итд )
+            author.text = post.author
+            content.text = post.content
+            published.text = post.published
+            likesAmount.text = showHowManyIntToString(post.countLikes)
+            shareAmount.text = showHowManyIntToString(post.countShare)
+            viewsAmount.text = showHowManyIntToString(post.countViews)
+
+            if (post.likeByMe) {
+                like.setImageResource(R.drawable.ic_like_red_24)
+            }
+            like.setOnClickListener {
+                post.likeByMe = !post.likeByMe
+                like.setImageResource(
+                    if (post.likeByMe) {
+                        R.drawable.ic_like_red_24
+                    } else {
+                        R.drawable.ic_like_24
+                    }
+                )
+                if (post.likeByMe) post.countLikes++ else post.countLikes--
+                likesAmount.text = showHowManyIntToString(post.countLikes)
+            }
+            share.setOnClickListener {
+                post.countShare++
+                shareAmount.text = showHowManyIntToString(post.countShare)
+            }
+        }
+    }
+
+}
+
+fun showHowManyIntToString(number: Int): String {
+    val thousand = "K"
+    val million = "M"
+
+    fun formatSmall(value: Double, suffix: String): String {
+        val str = value.toString()
+        return when {
+            str.getOrNull(2)?.let { it != '0' } == true -> "${str[0]}.${str[2]}"
+            else -> str[0].toString()
+        } + suffix
+    }
+
+    fun formatMedium(value: Double, suffix: String): String {
+        val str = value.toString()
+        return "${str[0]}${str[1]}$suffix"
+    }
+
+    fun formatLarge(value: Double, suffix: String): String {
+        val str = value.toString()
+        return "${str[0]}${str[1]}${str[2]}$suffix"
+    }
+
+    return when {
+        number <= 999 -> number.toString()
+
+        number < 10_000 -> {
+            val value = number.toDouble() / 1000
+            if (value in 1.0..10.0) formatSmall(value, thousand) else number.toString()
+        }
+
+        number < 100_000 -> {
+            val value = number.toDouble() / 1000
+            if (value in 1.0..100.0) formatMedium(value, thousand) else number.toString()
+        }
+
+        number < 1_000_000 -> {
+            val value = number.toDouble() / 1000
+            if (value in 1.0..1000.0) formatLarge(value, thousand) else number.toString()
+        }
+
+        number < 10_000_000 -> {
+            val value = number.toDouble() / 1_000_000
+            if (value in 1.0..10.0) formatSmall(value, million) else number.toString()
+        }
+
+        number < 100_000_000 -> {
+            val value = number.toDouble() / 1_000_000
+            if (value in 1.0..100.0) formatMedium(value, million) else number.toString()
+        }
+
+        else -> {
+            val value = number.toDouble() / 1_000_000
+            if (value in 1.0..1000.0) formatLarge(value, million) else number.toString()
+        }
     }
 }

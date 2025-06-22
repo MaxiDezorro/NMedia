@@ -3,7 +3,7 @@
     <string name="nmedia2">Привет НМедиа2!</string>
     <string name="description_post_author_avatar">Аватар автора</string>
     <string name="description_menu_button">Кнопка меню</string>
-    <string name="description_likes_button">Кнопка лайк</string>
+    <string name="description_like_button">Кнопка лайк</string>
     <string name="description_views">Иконка количества просмотров</string>
     <string name="description_share_button">Кнопка поделиться</string>
 </resources>
