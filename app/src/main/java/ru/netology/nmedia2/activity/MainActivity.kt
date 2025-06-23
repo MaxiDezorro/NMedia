@@ -1,11 +1,16 @@
-package ru.netology.nmedia2
+package ru.netology.nmedia2.activity
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import ru.netology.nmedia2.R
 import ru.netology.nmedia2.databinding.ActivityMainBinding
-import ru.netology.nmedia2.dto.Post
+import ru.netology.nmedia2.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel: PostViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding =
@@ -13,26 +18,16 @@ class MainActivity : AppCompatActivity() {
         // в метод inflate передаем (layoutInflater) - поле класса AppCompatActivity - создает вью по разметке
         setContentView(binding.root) // предаем binding с корневой вью идентификатор root
 
-        val post = Post(
-            id = 1,
-            author = "Нетология. Университет интернет-профессий будущего",
-            published = "21 мая в 18:36",
-            content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb"
-        )
+        viewModel.data.observe(this) { post ->
 
-        with(binding) { // обращаемся ко всем полям binding (вместо binding.author.text итд )
-            author.text = post.author
-            content.text = post.content
-            published.text = post.published
-            likesAmount.text = showHowManyIntToString(post.countLikes)
-            shareAmount.text = showHowManyIntToString(post.countShare)
-            viewsAmount.text = showHowManyIntToString(post.countViews)
+            with(binding) { // обращаемся ко всем полям binding (вместо binding.author.text итд )
+                author.text = post.author
+                content.text = post.content
+                published.text = post.published
+                likesAmount.text = showHowManyIntToString(post.countLikes)
+                shareAmount.text = showHowManyIntToString(post.countShare)
+                viewsAmount.text = showHowManyIntToString(post.countViews)
 
-            if (post.likeByMe) {
-                like.setImageResource(R.drawable.ic_like_red_24)
-            }
-            like.setOnClickListener {
-                post.likeByMe = !post.likeByMe
                 like.setImageResource(
                     if (post.likeByMe) {
                         R.drawable.ic_like_red_24
@@ -40,17 +35,22 @@ class MainActivity : AppCompatActivity() {
                         R.drawable.ic_like_24
                     }
                 )
-                if (post.likeByMe) post.countLikes++ else post.countLikes--
-                likesAmount.text = showHowManyIntToString(post.countLikes)
-            }
-            share.setOnClickListener {
-                post.countShare++
-                shareAmount.text = showHowManyIntToString(post.countShare)
+
             }
         }
-    }
+        binding.like.setOnClickListener {
+            viewModel.like()
 
+//                if (post.likeByMe) post.countLikes++ else post.countLikes--
+//                likesAmount.text = showHowManyIntToString(post.countLikes)
+        }
+//            share.setOnClickListener {
+//                post.countShare++
+//                shareAmount.text = showHowManyIntToString(post.countShare)
+//            }
+    }
 }
+
 
 fun showHowManyIntToString(number: Int): String {
     val thousand = "K"
