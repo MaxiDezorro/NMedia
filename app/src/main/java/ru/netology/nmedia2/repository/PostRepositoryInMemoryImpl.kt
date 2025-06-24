@@ -13,7 +13,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
         content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb"
     )
 
-    private val data = MutableLiveData(post)
+    private val data = MutableLiveData(post) // изменяемая LiveData от post
 
 
     override fun get(): LiveData<Post> {
@@ -23,6 +23,11 @@ class PostRepositoryInMemoryImpl : PostRepository {
     override fun like() {
         post = post.copy(likeByMe = !post.likeByMe)
         if (post.likeByMe) post.countLikes++ else post.countLikes--
+        data.value = post //  в data записываем новое состояние posta через метод value
+    }
+
+    override fun share() {
+        post.countShare++
         data.value = post
     }
 

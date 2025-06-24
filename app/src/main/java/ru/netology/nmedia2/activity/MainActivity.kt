@@ -9,16 +9,20 @@ import ru.netology.nmedia2.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: PostViewModel by viewModels()
+
+    private val viewModel: PostViewModel by viewModels() //todo функция viewModels позволяет предоставить ссылку на ту же viewModel после смены конфигураций(поворот экрана)
+    // после смены конфигураций, когда создается новый экземпляр MainActivity в viewModel будет ссылка на старую вьюмодель
+    // viewModel будет создана только при первом обрщении к ней (Lazy - ленивая инициализация)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding =
-            ActivityMainBinding.inflate(layoutInflater) // генерируется класс ActivityMainBinding по имени activity_main.xml
+            ActivityMainBinding.inflate(layoutInflater) // генерируется класс ActivityMainBinding по имени нашего lauout activity_main.xml
         // в метод inflate передаем (layoutInflater) - поле класса AppCompatActivity - создает вью по разметке
         setContentView(binding.root) // предаем binding с корневой вью идентификатор root
 
-        viewModel.data.observe(this) { post ->
+        viewModel.data.observe(this) { post -> // передает новое состояние post, когда данные изменились //todo Подписка на изменение данных
+//            поле data из репозитория, observe получает activity
 
             with(binding) { // обращаемся ко всем полям binding (вместо binding.author.text итд )
                 author.text = post.author
@@ -39,15 +43,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.like.setOnClickListener {
-            viewModel.like()
+            viewModel.like() // изменяем данные через метод вьюмодели
 
-//                if (post.likeByMe) post.countLikes++ else post.countLikes--
-//                likesAmount.text = showHowManyIntToString(post.countLikes)
         }
-//            share.setOnClickListener {
-//                post.countShare++
-//                shareAmount.text = showHowManyIntToString(post.countShare)
-//            }
+        binding.share.setOnClickListener {
+            viewModel.share()
+        }
     }
 }
 
