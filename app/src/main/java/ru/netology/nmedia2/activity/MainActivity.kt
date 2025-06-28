@@ -3,7 +3,7 @@ package ru.netology.nmedia2.activity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import ru.netology.nmedia2.R
+import ru.netology.nmedia2.adapter.PostAdapter
 import ru.netology.nmedia2.databinding.ActivityMainBinding
 import ru.netology.nmedia2.viewmodel.PostViewModel
 
@@ -18,36 +18,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding =
             ActivityMainBinding.inflate(layoutInflater) // генерируется класс ActivityMainBinding по имени нашего lauout activity_main.xml
-        // в метод inflate передаем (layoutInflater) - поле класса AppCompatActivity - создает вью по разметке
-        setContentView(binding.root) // предаем binding с корневой вью идентификатор root
+        // в метод inflate передаем (layoutInflater) - поле класса AppCompatActivity - создает из верстки вьюшку по разметке
+        setContentView(binding.root) // предаем binding, и с корневой вью передаем идентификатор root
 
-        viewModel.data.observe(this) { post -> // передает новое состояние post, когда данные изменились //todo Подписка на изменение данных
+        val adapter = PostAdapter({ post ->
+                viewModel.likeById(post.id)
+            }, { post ->
+                viewModel.shareById(post.id)
+            })
+
+        binding.list.adapter = adapter // передаем адаптер в нашу вью(лист)
+
+        viewModel.data.observe(this) { posts -> // передает новое состояние post, когда данные изменились //todo Подписка на изменение данных
 //            поле data из репозитория, observe получает activity
+            adapter.submitList(posts) // обновляем данные
 
-            with(binding) { // обращаемся ко всем полям binding (вместо binding.author.text итд )
-                author.text = post.author
-                content.text = post.content
-                published.text = post.published
-                likesAmount.text = showHowManyIntToString(post.countLikes)
-                shareAmount.text = showHowManyIntToString(post.countShare)
-                viewsAmount.text = showHowManyIntToString(post.countViews)
-
-                like.setImageResource(
-                    if (post.likeByMe) {
-                        R.drawable.ic_like_red_24
-                    } else {
-                        R.drawable.ic_like_24
-                    }
-                )
-
-            }
-        }
-        binding.like.setOnClickListener {
-            viewModel.like() // изменяем данные через метод вьюмодели
-
-        }
-        binding.share.setOnClickListener {
-            viewModel.share()
         }
     }
 }

@@ -10,9 +10,9 @@ class PostViewModel : ViewModel() {
     private val repository: PostRepository = PostRepositoryInMemoryImpl() // предоставляем достуа к репозиторию через
     // интерфейс PostRepository. можем обратиться к методам только этого интерфейса
 
-    val data: LiveData<Post> = repository.get() // на это поле подписана activity
+    val data: LiveData<List<Post>> = repository.getAll() // на это поле подписана activity
 
-    fun like() = repository.like() // вызывается в слушателе и изменяет наш post
-    fun share() = repository.share()
+    fun likeById(id: Int) = repository.likeById(id) // вызывается в слушателе и изменяет наш post
+    fun shareById(id: Int) = repository.shareById(id)
 
 }
