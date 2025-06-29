@@ -19,8 +19,10 @@ class PostAdapter(
 ) :
     ListAdapter<Post, PostViewHolder>(PostDiffCallBack) {
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder { // вызывается каждый раз когда создается новая карточка
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): PostViewHolder { // вызывается каждый раз когда создается новая карточка
         val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PostViewHolder(binding, onLikeListener, onShareListener) // создали новый PostViewHolder
     }
@@ -64,7 +66,7 @@ class PostViewHolder(
         }
 }
 
-object PostDiffCallBack : DiffUtil.ItemCallback<Post>() {
+object PostDiffCallBack : DiffUtil.ItemCallback<Post>() {   //  отвечает за сравнение списков
     override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
         return oldItem.id == newItem.id // сравниваем посты по id
     }

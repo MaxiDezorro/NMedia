@@ -22,11 +22,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root) // предаем binding, и с корневой вью передаем идентификатор root
 
         val adapter = PostAdapter({ post ->
-                viewModel.likeById(post.id)
-            }, { post ->
-                viewModel.shareById(post.id)
-            })
-
+            viewModel.likeById(post.id)
+        }, { post ->
+            viewModel.shareById(post.id)
+        })
         binding.list.adapter = adapter // передаем адаптер в нашу вью(лист)
 
         viewModel.data.observe(this) { posts -> // передает новое состояние post, когда данные изменились //todo Подписка на изменение данных
