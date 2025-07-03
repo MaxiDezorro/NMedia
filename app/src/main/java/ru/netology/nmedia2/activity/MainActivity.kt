@@ -48,8 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.data.observe(this) { posts -> // передает новое состояние post, когда данные изменились //todo Подписка на изменение данных
 //            поле data из репозитория, observe получает activity
-            val newPost =
-                posts.size != adapter.itemCount // проверяем, изменилось ли количество элементов в списке posts
+            val newPost = posts.size > adapter.itemCount // проверяем, изменилось ли количество элементов в списке posts
             // по сравнению с текущим количеством элементов в адаптере adapter.itemCount.
             adapter.submitList(posts) {// обновляем данные
                 if (newPost)
@@ -58,9 +57,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.edited.observe(this) { post ->
-            with(binding.content) {
-                requestFocus()
-                setText(post.content)
+            if (post.id != 0) {
+                with(binding.content) {
+                    AndroidUtils.showKeyboard(this)
+                    setText(post.content)
+                }
             }
         }
         with(binding) {
