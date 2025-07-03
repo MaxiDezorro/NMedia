@@ -6,4 +6,9 @@
     <string name="description_like_button">Кнопка лайк</string>
     <string name="description_views">Иконка количества просмотров</string>
     <string name="description_share_button">Кнопка поделиться</string>
+    <string name="menu_remove">Удалить</string>
+    <string name="post_text">текст поста</string>
+    <string name="error_empty_content">контент не может быть пуст</string>
+    <string name="button_save_post">кнопка сохранить пост</string>
+    <string name="menu_edit">Реактировать</string>
 </resources>

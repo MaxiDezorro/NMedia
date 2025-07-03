@@ -9,4 +9,9 @@
     <string name="views_amount" translatable="false">333</string>
     <string name="description_share_button">share button</string>
     <string name="share_amount" translatable="false">777</string>
+    <string name="menu_remove">Remove</string>
+    <string name="post_text">post text</string>
+    <string name="error_empty_content">content cannot be empty</string>
+    <string name="button_save_post">button save Post</string>
+    <string name="menu_edit">Edit</string>
 </resources>

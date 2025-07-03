@@ -1,10 +1,15 @@
 package ru.netology.nmedia2.activity
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import ru.netology.nmedia2.R
+import ru.netology.nmedia2.adapter.OnInteractorListener
 import ru.netology.nmedia2.adapter.PostAdapter
 import ru.netology.nmedia2.databinding.ActivityMainBinding
+import ru.netology.nmedia2.dto.Post
+import ru.netology.nmedia2.util.AndroidUtils
 import ru.netology.nmedia2.viewmodel.PostViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -21,17 +26,59 @@ class MainActivity : AppCompatActivity() {
         // в метод inflate передаем (layoutInflater) - поле класса AppCompatActivity - создает из верстки вьюшку по разметке
         setContentView(binding.root) // предаем binding, и с корневой вью передаем идентификатор root
 
-        val adapter = PostAdapter({ post ->
-            viewModel.likeById(post.id)
-        }, { post ->
-            viewModel.shareById(post.id)
-        })
+        val adapter = PostAdapter(object : OnInteractorListener {
+            override fun onLike(post: Post) {
+                viewModel.likeById(post.id)
+            }
+
+            override fun onShare(post: Post) {
+                viewModel.shareById(post.id)
+            }
+
+            override fun onRemove(post: Post) {
+                viewModel.removeById(post.id)
+            }
+
+            override fun onEdit(post: Post) {
+                viewModel.edit(post)
+            }
+        }
+        )
         binding.list.adapter = adapter // передаем адаптер в нашу вью(лист)
 
         viewModel.data.observe(this) { posts -> // передает новое состояние post, когда данные изменились //todo Подписка на изменение данных
 //            поле data из репозитория, observe получает activity
-            adapter.submitList(posts) // обновляем данные
+            val newPost =
+                posts.size != adapter.itemCount // проверяем, изменилось ли количество элементов в списке posts
+            // по сравнению с текущим количеством элементов в адаптере adapter.itemCount.
+            adapter.submitList(posts) {// обновляем данные
+                if (newPost)
+                    binding.list.smoothScrollToPosition(0) // плавный скрол по позиции
+            }
+        }
 
+        viewModel.edited.observe(this) { post ->
+            with(binding.content) {
+                requestFocus()
+                setText(post.content)
+            }
+        }
+        with(binding) {
+            savePost.setOnClickListener {
+                if (content.text.isNullOrBlank()) { // проверяем есть ли текс в content
+                    Toast.makeText( // всплывающее сообщение
+                        this@MainActivity,// context наша MainActivity
+                        R.string.error_empty_content, // ресурс или текст отображаемый
+                        Toast.LENGTH_SHORT // константа  время отображения сообщения
+                    ).show()
+                    return@setOnClickListener // если текст был пустой - заранее выходим из обработчика
+                }
+                viewModel.changeContent(content.text.toString()) // вызываем методы именения
+                viewModel.save() // и сохранения текста
+                content.setText("")  // устанавливаем пустое поле ввода, после добавления поста
+                content.clearFocus() // убираем фокус
+                AndroidUtils.hideKeyboard(it) // скрыть клавиатуру (передаем вью)
+            }
         }
     }
 }
