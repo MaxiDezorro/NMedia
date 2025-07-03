@@ -11,4 +11,5 @@
     <string name="error_empty_content">контент не может быть пуст</string>
     <string name="button_save_post">кнопка сохранить пост</string>
     <string name="menu_edit">Реактировать</string>
+    <string name="edit_message">Редактируйте сообщение</string>
 </resources>

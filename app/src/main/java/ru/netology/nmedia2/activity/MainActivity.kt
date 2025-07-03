@@ -1,6 +1,7 @@
 package ru.netology.nmedia2.activity
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -48,7 +49,8 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.data.observe(this) { posts -> // передает новое состояние post, когда данные изменились //todo Подписка на изменение данных
 //            поле data из репозитория, observe получает activity
-            val newPost = posts.size > adapter.itemCount // проверяем, изменилось ли количество элементов в списке posts
+            val newPost =
+                posts.size > adapter.itemCount // проверяем, изменилось ли количество элементов в списке posts
             // по сравнению с текущим количеством элементов в адаптере adapter.itemCount.
             adapter.submitList(posts) {// обновляем данные
                 if (newPost)
@@ -58,15 +60,33 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.edited.observe(this) { post ->
             if (post.id != 0) {
-                with(binding.content) {
-                    AndroidUtils.showKeyboard(this)
-                    setText(post.content)
+                with(binding) {
+                    editGroup.visibility = View.VISIBLE // показываем группу редактирования
+                    content.setText(post.content) // текст редактируемого поста устанавливаем в content
+                    AndroidUtils.showKeyboard(content) // показ клавиатуры
+                    editMessageContent.text =
+                        post.content // текст редактируемого поста устанавливаем в editMessageContent
+
+                    editClose.setOnClickListener {
+                        editGroup.visibility = View.GONE // скрываем группу
+                        content.clearFocus() // убираем фокус
+                        content.setText("")
+                        AndroidUtils.hideKeyboard(it) // убираем клавиатуру
+                        viewModel.changeContent(editMessageContent.text.toString())
+                        viewModel.save()
+
+                    }
+
+
                 }
             }
         }
         with(binding) {
             savePost.setOnClickListener {
-                if (content.text.isNullOrBlank()) { // проверяем есть ли текс в content
+
+//                editGroup.visibility = View.GONE
+
+                if (content.text.isNullOrBlank()) { // проверяем есть ли текст в content
                     Toast.makeText( // всплывающее сообщение
                         this@MainActivity,// context наша MainActivity
                         R.string.error_empty_content, // ресурс или текст отображаемый
@@ -74,8 +94,12 @@ class MainActivity : AppCompatActivity() {
                     ).show()
                     return@setOnClickListener // если текст был пустой - заранее выходим из обработчика
                 }
+//                editGroup.visibility = View.GONE
                 viewModel.changeContent(content.text.toString()) // вызываем методы именения
                 viewModel.save() // и сохранения текста
+
+                editGroup.visibility = View.GONE
+
                 content.setText("")  // устанавливаем пустое поле ввода, после добавления поста
                 content.clearFocus() // убираем фокус
                 AndroidUtils.hideKeyboard(it) // скрыть клавиатуру (передаем вью)

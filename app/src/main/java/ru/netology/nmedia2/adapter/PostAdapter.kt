@@ -25,13 +25,13 @@ interface OnInteractorListener {
 class PostAdapter(
 
     private val onInteractorListener: OnInteractorListener
-//    private val onLikeListener: OnLikeListener,
-//    private val onShareListener: OnShareListener,
-//    private val onRemoveListener: OnRemoveListener
 ) :
     ListAdapter<Post, PostViewHolder>(PostDiffCallBack) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder { // вызывается каждый раз когда создается новая карточка
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): PostViewHolder { // вызывается каждый раз когда создается новая карточка
 
         val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
@@ -51,9 +51,6 @@ class PostAdapter(
 class PostViewHolder(
     private val binding: CardPostBinding, // передаем binding (разметку) нашей карточки из todo onCreateViewHolder
     private val onInteractorListener: OnInteractorListener
-    //    private val onLikeListener: OnLikeListener,
-//    private val onShareListener: OnShareListener,
-//    private val onRemoveListener: OnRemoveListener
 
 
 ) : RecyclerView.ViewHolder(binding.root) { // в конструктор вьюхолдера передаем корневую вью карточки
@@ -80,7 +77,10 @@ class PostViewHolder(
                 onInteractorListener.onShare(post)
             }
             menu.setOnClickListener {
-                PopupMenu(it.context, it).apply { // передаем в popup(контекст вью, и место появления с нашей вью)
+                PopupMenu(
+                    it.context,
+                    it
+                ).apply { // передаем в popup(контекст вью, и место появления с нашей вью)
 
                     inflate(R.menu.post_menu) // инфлейтим наше меню
                     setOnMenuItemClickListener { item -> // item из post_menu.xml
@@ -89,9 +89,10 @@ class PostViewHolder(
                                 onInteractorListener.onRemove(post)
                                 true
                             }
+
                             R.id.edit -> {
                                 onInteractorListener.onEdit(post)
-                              true
+                                true
                             }
 
                             else -> false

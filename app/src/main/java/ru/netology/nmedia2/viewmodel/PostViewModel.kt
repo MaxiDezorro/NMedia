@@ -34,6 +34,7 @@ class PostViewModel : ViewModel() {
             if (text != it.content) {
             edited.value = it.copy(content = text) // заменяем у текушего поста контент на новый текст
             }
+
         }
 
     }
