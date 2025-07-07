@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         with(binding) {
             savePost.setOnClickListener {
 
-//                editGroup.visibility = View.GONE
+//                editGroup.visibility = View.GONE // почему-то не скрывает группу редактирования только когда редактируем и сохраняем
 
                 if (content.text.isNullOrBlank()) { // проверяем есть ли текст в content
                     Toast.makeText( // всплывающее сообщение
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                 viewModel.changeContent(content.text.toString()) // вызываем методы именения
                 viewModel.save() // и сохранения текста
 
-                editGroup.visibility = View.GONE
+                editGroup.visibility = View.GONE // работает корректно
 
                 content.setText("")  // устанавливаем пустое поле ввода, после добавления поста
                 content.clearFocus() // убираем фокус
