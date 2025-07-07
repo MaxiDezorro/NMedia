@@ -15,4 +15,6 @@
     <string name="button_save_post">button save Post</string>
     <string name="menu_edit">Edit</string>
     <string name="edit_message">Edit message</string>
+    <string name="description_cancel_edit_button">cancel edit button</string>
+    <string name="description_edit_mode_icon">edit mode icon</string>
 </resources>
