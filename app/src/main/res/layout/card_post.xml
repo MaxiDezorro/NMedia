@@ -42,14 +42,16 @@
         app:layout_constraintTop_toBottomOf="@id/author"
         tools:text="@sample/posts.json/data/published" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/menu"
+        style="@style/Style.MenuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:contentDescription="@string/description_menu_button"
         android:padding="@dimen/indent_16dp"
-        android:src="@drawable/ic_more_vert_24"
+        android:checkable="true"
+        app:icon="@drawable/ic_more_vert_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,7 +79,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/like"
-        style="@style/Style.LikeButton."
+        style="@style/Style.LikeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -88,19 +90,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierContent"
         app:layout_constraintTop_toTopOf="@id/views"
-        tools:checked="true"
         tools:text="1" />
 
-    <TextView
-        android:id="@+id/likesAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/indent_16dp"
-        app:layout_constraintBottom_toBottomOf="@id/like"
-        app:layout_constraintStart_toEndOf="@id/like"
-        app:layout_constraintTop_toBottomOf="@id/barrierContent"
-        app:layout_constraintTop_toTopOf="@id/like"
-        tools:text="@string/likes_amount" />
 
     <ImageView
         android:id="@+id/views"
@@ -124,29 +115,20 @@
         app:layout_constraintTop_toTopOf="@id/views"
         tools:text="@string/views_amount" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/share"
+        style="@style/Style.ShareButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/indent_16dp"
         android:background="@android:color/transparent"
+        android:checkable="true"
         android:contentDescription="@string/description_share_button"
-        android:src="@drawable/ic_baseline_share_24"
+        app:icon="@drawable/ic_baseline_share_24"
         app:layout_constraintBottom_toBottomOf="@id/like"
-        app:layout_constraintStart_toEndOf="@id/likesAmount"
-        app:layout_constraintTop_toTopOf="@id/like" />
-
-    <TextView
-        android:id="@+id/shareAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/indent_16dp"
-        app:layout_constraintBottom_toBottomOf="@id/share"
-        app:layout_constraintStart_toEndOf="@id/share"
-        app:layout_constraintTop_toTopOf="@id/share"
-        tools:text="@string/share_amount"
-
-        />
+        app:layout_constraintStart_toEndOf="@id/like"
+        app:layout_constraintTop_toTopOf="@id/like"
+        tools:text="2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

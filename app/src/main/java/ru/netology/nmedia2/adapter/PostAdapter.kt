@@ -59,8 +59,8 @@ class PostViewHolder(
             author.text = post.author
             content.text = post.content
             published.text = post.published
-            likesAmount.text = showHowManyIntToString(post.countLikes)
-            shareAmount.text = showHowManyIntToString(post.countShare)
+//            likesAmount.text = showHowManyIntToString(post.countLikes)
+//            shareAmount.text = showHowManyIntToString(post.countShare)
             viewsAmount.text = showHowManyIntToString(post.countViews)
 
             like.apply {
@@ -70,6 +70,8 @@ class PostViewHolder(
             // без apply так         \\  или с  with(like) {
 //            like.isChecked =         \\  isChecked =
 //            like.text =               \\  text =  }
+
+            share.text = showHowManyIntToString(post.countShare)
 
             like.setOnClickListener { // дергаем лямбду
                 onInteractorListener.onLike(post)
