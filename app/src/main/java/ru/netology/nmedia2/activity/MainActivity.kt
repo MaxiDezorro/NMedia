@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import ru.netology.nmedia2.R
 import ru.netology.nmedia2.adapter.OnInteractorListener
 import ru.netology.nmedia2.adapter.PostAdapter
@@ -49,7 +50,8 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.data.observe(this) { posts -> // передает новое состояние post, когда данные изменились //todo Подписка на изменение данных
 //            поле data из репозитория, observe получает activity
-            val newPost = posts.size > adapter.itemCount // проверяем, изменилось ли количество элементов в списке posts
+            val newPost =
+                posts.size > adapter.itemCount // проверяем, изменилось ли количество элементов в списке posts
             // по сравнению с текущим количеством элементов в адаптере adapter.itemCount.
             adapter.submitList(posts) {// обновляем данные
                 if (newPost) {
@@ -64,7 +66,8 @@ class MainActivity : AppCompatActivity() {
                     editGroup.visibility = View.VISIBLE // показываем группу редактирования
                     content.setText(post.content) // текст редактируемого поста устанавливаем в content
                     AndroidUtils.showKeyboard(content) // показ клавиатуры
-                    editMessageContent.text = post.content // текст редактируемого поста устанавливаем в editMessageContent
+                    editMessageContent.text =
+                        post.content // текст редактируемого поста устанавливаем в editMessageContent
 
                     editClose.setOnClickListener {
                         editGroup.visibility = View.GONE // скрываем группу
@@ -97,7 +100,8 @@ class MainActivity : AppCompatActivity() {
                 viewModel.changeContent(content.text.toString()) // вызываем методы именения
                 viewModel.save() // и сохранения текста
 
-                editGroup.visibility = View.GONE // работает корректно
+                editGroup.isVisible = false
+//                editGroup.visibility = View.GONE // работает корректно
 
                 content.setText("")  // устанавливаем пустое поле ввода, после добавления поста
                 content.clearFocus() // убираем фокус

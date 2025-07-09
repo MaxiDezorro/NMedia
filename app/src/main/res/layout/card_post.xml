@@ -75,17 +75,21 @@
         app:barrierDirection="bottom"
         app:constraint_referenced_ids="content" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/like"
+        style="@style/Style.LikeButton."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        android:checkable="true"
         android:contentDescription="@string/description_like_button"
-        android:src="@drawable/ic_like_24"
+        app:icon="@drawable/ic_like"
         app:layout_constraintBottom_toBottomOf="@id/views"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierContent"
-        app:layout_constraintTop_toTopOf="@id/views" />
+        app:layout_constraintTop_toTopOf="@id/views"
+        tools:checked="true"
+        tools:text="1" />
 
     <TextView
         android:id="@+id/likesAmount"

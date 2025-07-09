@@ -63,13 +63,14 @@ class PostViewHolder(
             shareAmount.text = showHowManyIntToString(post.countShare)
             viewsAmount.text = showHowManyIntToString(post.countViews)
 
-            like.setImageResource(
-                if (post.likeByMe) {
-                    R.drawable.ic_like_red_24
-                } else {
-                    R.drawable.ic_like_24
-                }
-            )
+            like.apply {
+                isChecked = post.likeByMe
+                text = showHowManyIntToString(post.countLikes)
+            }
+            // без apply так         \\  или с  with(like) {
+//            like.isChecked =         \\  isChecked =
+//            like.text =               \\  text =  }
+
             like.setOnClickListener { // дергаем лямбду
                 onInteractorListener.onLike(post)
             }
