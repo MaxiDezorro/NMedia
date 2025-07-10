@@ -90,7 +90,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierContent"
         app:layout_constraintTop_toTopOf="@id/views"
-        tools:text="1" />
+        tools:text="@string/likes_amount" />
 
 
     <ImageView
@@ -120,15 +120,15 @@
         style="@style/Style.ShareButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/indent_16dp"
         android:background="@android:color/transparent"
         android:checkable="true"
         android:contentDescription="@string/description_share_button"
+        android:layout_marginStart="@dimen/indent_16dp"
         app:icon="@drawable/ic_baseline_share_24"
         app:layout_constraintBottom_toBottomOf="@id/like"
         app:layout_constraintStart_toEndOf="@id/like"
         app:layout_constraintTop_toTopOf="@id/like"
-        tools:text="2" />
+        tools:text="@string/share_amount" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
