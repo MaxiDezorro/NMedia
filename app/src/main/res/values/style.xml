@@ -9,7 +9,7 @@
     <style name="Style.LikeButton" parent="Widget.Material3.Button.TextButton">
         <item name="iconTint">@color/like_checkbox_tint</item>
         <item name="android:minWidth">0dp</item>
-        <item name="android:textColor">?attr/colorControlNormal</item>
+        <item name="android:textColor">@color/like_text_color_selector</item>
     </style>
 
     <style name="Style.ShareButton" parent="Widget.Material3.Button.TextButton">
