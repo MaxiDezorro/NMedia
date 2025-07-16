@@ -1,5 +1,6 @@
 package ru.netology.nmedia2.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -34,6 +35,18 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onShare(post: Post) {
+                // не явный интент
+                val intent = Intent().apply { // создаем интент и настраиваем через apply
+                    action = Intent.ACTION_SEND // константа означающая что отправляем данные
+                    putExtra(Intent.EXTRA_TEXT, post.content)// кладем в интент
+                                                 // (ключ для передаваемых данных(EXTRA_TEXT) и данные(контент поста))
+                    type = "text/plain" //означает что передаем стандартный тип текстового поля
+                }
+                val shareIntent = Intent.createChooser(intent, getString(R.string.chooser_share_post))
+                // создаем интент на показ Choser'a(меню выбора), куда передаем (интент и стринг(сообщение в меню(название))
+
+                startActivity(shareIntent) // метод активити куда передаем наш интент
+
                 viewModel.shareById(post.id)
             }
 

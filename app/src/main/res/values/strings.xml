@@ -17,4 +17,5 @@
     <string name="edit_message">Edit message</string>
     <string name="description_cancel_edit_button">cancel edit button</string>
     <string name="description_edit_mode_icon">edit mode icon</string>
+    <string name="chooser_share_post">share</string>
 </resources>
