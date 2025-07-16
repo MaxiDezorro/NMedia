@@ -25,7 +25,7 @@ class ActivityDataReception : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        // обработка входящего интента
+        // обработка входящего не явного интента
         intent?.let {
             if (it.action != Intent.ACTION_SEND) return@let // выхходим если action не ACTION_SEND
 
@@ -42,6 +42,7 @@ class ActivityDataReception : AppCompatActivity() {
             }
 
             // todo else {обрабатываем текст }
+            binding.content.setText(text)
         }
 
     }

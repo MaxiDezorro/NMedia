@@ -10,109 +10,21 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/barrierEditGroup"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/card_post" />
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/editGroup"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/newPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="editImage,editMessage,editClose,editMessageContent,barrierEditGroup" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="top"
-        app:constraint_referenced_ids="content, save_post" />
-
-    <ImageButton
-        android:id="@+id/editClose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/description_cancel_edit_button"
-        android:paddingStart="@dimen/indent_16dp"
-        android:paddingTop="@dimen/indent_16dp"
-        android:paddingBottom="@dimen/indent_16dp"
-        android:src="@drawable/ic_close_edit_48"
-        app:layout_constraintBottom_toTopOf="@id/barrier"
+        android:layout_margin="@dimen/indent_16dp"
+        android:src="@drawable/ic_add_24"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/editMessage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/indent_16dp"
-        android:text="@string/edit_message"
-        app:layout_constraintEnd_toStartOf="@id/editClose"
-        app:layout_constraintStart_toEndOf="@id/editImage"
-        app:layout_constraintTop_toBottomOf="@id/barrierEditGroup"
-
-        />
-
-    <TextView
-        android:id="@+id/editMessageContent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:paddingBottom="@dimen/indent_16dp"
-        app:layout_constraintBottom_toTopOf="@id/barrier"
-        app:layout_constraintEnd_toStartOf="@id/editClose"
-        app:layout_constraintStart_toEndOf="@id/editImage"
-        tools:text="Текст редактируемого поста" />
-
-    <ImageView
-        android:id="@+id/editImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/description_edit_mode_icon"
-        android:paddingTop="@dimen/indent_16dp"
-        android:paddingEnd="@dimen/indent_16dp"
-        android:paddingBottom="@dimen/indent_16dp"
-        android:src="@drawable/ic_edit_24"
-        app:layout_constraintBottom_toTopOf="@id/barrier"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrierEditGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="top"
-        app:constraint_referenced_ids="editImage, editClose, editMessage" />
-
-    <EditText
-        android:id="@+id/content"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:hint="@string/post_text"
-        android:inputType="textMultiLine"
-        android:maxLines="6"
-        android:padding="@dimen/indent_16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/save_post"
-        app:layout_constraintStart_toStartOf="parent"
-
-        />
-
-    <ImageButton
-        android:id="@+id/save_post"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:contentDescription="@string/button_save_post"
-        android:src="@drawable/ic_save_48"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

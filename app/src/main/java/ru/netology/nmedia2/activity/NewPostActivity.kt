@@ -22,17 +22,18 @@ class NewPostActivity : AppCompatActivity() {
 //        }
         val binding = AcNewPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.save.show()
 
-        binding.edit.setOnClickListener {
+        binding.save.setOnClickListener { // обрабатываем нажатие на кнопку
             val intent = Intent()
-            if (binding.edit.text.isNullOrBlank()) {
-                setResult(Activity.RESULT_CANCELED, intent)
+            if (binding.edit.text.isNullOrBlank()) { // проверяем текст
+                setResult(Activity.RESULT_CANCELED, intent) // результат Canceled , передаем пустой интент
             } else {
-                val content = binding.edit.text.toString()
+                val content = binding.edit.text.toString() // получаем контент у вью
                 intent.putExtra(Intent.EXTRA_TEXT, content) // кладем контент в интент по ключу
                 setResult(Activity.RESULT_OK, intent)
             }
-            finish()
+            finish() // завершаем работу активити
         }
     }
 }
