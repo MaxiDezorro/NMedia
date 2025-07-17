@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -77,6 +78,10 @@ class MainActivity : AppCompatActivity() {
             content ?: return@registerForActivityResult // проверяем что есть контент не null
             viewModel.changeContent(content)
             viewModel.save()
+        }
+
+        binding.newPost.setOnClickListener {
+            newPostLauncher.launch()  // зпускаем вызов нового экрана
         }
 
 //        viewModel.edited.observe(this) { post ->

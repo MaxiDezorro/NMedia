@@ -22,9 +22,9 @@ class NewPostActivity : AppCompatActivity() {
 //        }
         val binding = AcNewPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.save.show()
+        binding.savePost.show()
 
-        binding.save.setOnClickListener { // обрабатываем нажатие на кнопку
+        binding.savePost.setOnClickListener { // обрабатываем нажатие на кнопку
             val intent = Intent()
             if (binding.edit.text.isNullOrBlank()) { // проверяем текст
                 setResult(Activity.RESULT_CANCELED, intent) // результат Canceled , передаем пустой интент
