@@ -3,6 +3,7 @@ package ru.netology.nmedia2.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -28,6 +29,7 @@ class NewPostActivity : AppCompatActivity() {
         binding.savePost.setOnClickListener { // обрабатываем нажатие на кнопку
             val intent = Intent()
             if (binding.edit.text.isNullOrBlank()) { // проверяем текст
+                Toast.makeText(this@NewPostActivity, R.string.error_empty_content, Toast.LENGTH_SHORT).show()
                 setResult(Activity.RESULT_CANCELED, intent) // результат Canceled , передаем пустой интент
             } else {
                 val content = binding.edit.text.toString() // получаем контент у вью

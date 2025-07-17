@@ -30,6 +30,13 @@ class MainActivity : AppCompatActivity() {
         // в метод inflate передаем (layoutInflater) - поле класса AppCompatActivity - создает из верстки вьюшку по разметке
         setContentView(binding.root) // предаем binding, и с корневой вью передаем идентификатор root
 
+        val editPostLauncher =
+            registerForActivityResult(EditPostResultContract()) { content ->
+                content ?: return@registerForActivityResult
+                viewModel.changeContent(content)
+                viewModel.save()
+            }
+
         val adapter = PostAdapter(object : OnInteractorListener {
             override fun onLike(post: Post) {
                 viewModel.likeById(post.id)
@@ -40,10 +47,11 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent().apply { // создаем интент и настраиваем через apply
                     action = Intent.ACTION_SEND // константа означающая что отправляем данные
                     putExtra(Intent.EXTRA_TEXT, post.content)// кладем в интент
-                                                 // (ключ для передаваемых данных(EXTRA_TEXT) и данные(контент поста))
+                    // (ключ для передаваемых данных(EXTRA_TEXT) и данные(контент поста))
                     type = "text/plain" //означает что передаем стандартный тип текстового поля
                 }
-                val shareIntent = Intent.createChooser(intent, getString(R.string.chooser_share_post))
+                val shareIntent =
+                    Intent.createChooser(intent, getString(R.string.chooser_share_post))
                 // создаем интент на показ Choser'a(меню выбора), куда передаем (интент и стринг(сообщение в меню(название))
 
                 startActivity(shareIntent) // метод активити куда передаем наш интент
@@ -57,14 +65,17 @@ class MainActivity : AppCompatActivity() {
 
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
+                editPostLauncher.launch(post.content)
             }
         })
+
 
         binding.list.adapter = adapter // передаем адаптер в нашу вью(лист)
 
         viewModel.data.observe(this) { posts -> // передает новое состояние post, когда данные изменились //todo Подписка на изменение данных
 //            поле data из репозитория, observe получает activity
-            val newPost = posts.size > adapter.itemCount // проверяем, изменилось ли количество элементов в списке posts
+            val newPost =
+                posts.size > adapter.itemCount // проверяем, изменилось ли количество элементов в списке posts
             // по сравнению с текущим количеством элементов в адаптере adapter.itemCount.
 
             adapter.submitList(posts) {// обновляем данные
@@ -74,19 +85,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val newPostLauncher =  registerForActivityResult(NewPostResultContract()){ content ->    // регистрируем контракт
-            content ?: return@registerForActivityResult // проверяем что есть контент не null
-            viewModel.changeContent(content)
-            viewModel.save()
-        }
+        val newPostLauncher =
+            registerForActivityResult(NewPostResultContract()) { content ->    // регистрируем контракт
+                content ?: return@registerForActivityResult // проверяем что есть контент не null
+                viewModel.changeContent(content)
+                viewModel.save()
+            }
 
         binding.newPost.setOnClickListener {
-            newPostLauncher.launch()  // зпускаем вызов нового экрана
+            newPostLauncher.launch()  // запускаем вызов нового экрана
 
         }
 
-//        viewModel.edited.observe(this) { post ->
-//            if (post.id != 0) {
+
+
+        viewModel.edited.observe(this) { post ->
+            if (post.id == 0) {
+                return@observe
+            }
+        }
 //                with(binding) {
 //                    editGroup.visibility = View.VISIBLE // показываем группу редактирования
 //                    content.setText(post.content) // текст редактируемого поста устанавливаем в content
