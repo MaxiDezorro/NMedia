@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import ru.netology.nmedia2.R
 import ru.netology.nmedia2.databinding.AcNewPostBinding
+import ru.netology.nmedia2.util.AndroidUtils
 
 class NewPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +23,7 @@ class NewPostActivity : AppCompatActivity() {
 //        }
         val binding = AcNewPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.savePost.show()
+        AndroidUtils.showKeyboard(binding.edit)
 
         binding.savePost.setOnClickListener { // обрабатываем нажатие на кнопку
             val intent = Intent()

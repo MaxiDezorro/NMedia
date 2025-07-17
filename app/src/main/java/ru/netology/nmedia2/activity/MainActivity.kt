@@ -64,9 +64,9 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.data.observe(this) { posts -> // передает новое состояние post, когда данные изменились //todo Подписка на изменение данных
 //            поле data из репозитория, observe получает activity
-            val newPost =
-                posts.size > adapter.itemCount // проверяем, изменилось ли количество элементов в списке posts
+            val newPost = posts.size > adapter.itemCount // проверяем, изменилось ли количество элементов в списке posts
             // по сравнению с текущим количеством элементов в адаптере adapter.itemCount.
+
             adapter.submitList(posts) {// обновляем данные
                 if (newPost) {
                     binding.list.smoothScrollToPosition(0) // плавный скрол по позиции
@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.newPost.setOnClickListener {
             newPostLauncher.launch()  // зпускаем вызов нового экрана
+
         }
 
 //        viewModel.edited.observe(this) { post ->
