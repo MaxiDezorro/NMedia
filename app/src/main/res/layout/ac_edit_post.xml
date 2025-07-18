@@ -12,11 +12,11 @@
         android:id="@+id/edit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:hint="@string/post_text"
         android:background="@android:color/transparent"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:padding="@dimen/indent_16dp"
-        />
+        android:padding="@dimen/indent_16dp" />
     <!-- gravity - установка курсора -->
 
     <com.google.android.material.bottomappbar.BottomAppBar
@@ -30,6 +30,7 @@
         android:id="@+id/savePost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/description_button_save_post"
         app:layout_anchor="@id/bottomAppBar"
         app:srcCompat="@drawable/ic_send_24" />
 

@@ -2,9 +2,10 @@ package ru.netology.nmedia2.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import ru.netology.nmedia2.R
-import ru.netology.nmedia2.databinding.AcEditBinding
+import ru.netology.nmedia2.databinding.AcEditPostBinding
 import ru.netology.nmedia2.util.AndroidUtils
 
 class EditPostActivity : AppCompatActivity() {
@@ -18,16 +19,17 @@ class EditPostActivity : AppCompatActivity() {
 //            insets
 //        }
 
-        val binding = AcEditBinding.inflate(layoutInflater)
+        val binding = AcEditPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
         AndroidUtils.showKeyboard(binding.edit)
-        val content = intent.getStringExtra(Intent.EXTRA_TEXT)
+        val content = intent.getStringExtra(Intent.EXTRA_TEXT) // извлекаем контент из интента по ключу
         binding.edit.setText(content)
 
 
         binding.savePost.setOnClickListener {
             val intent = Intent()
             if (binding.edit.text.isNullOrBlank()) {
+                Toast.makeText(this@EditPostActivity, R.string.error_empty_content, Toast.LENGTH_SHORT).show()
                 setResult(RESULT_CANCELED, intent)
             } else {
                 val content = binding.edit.text.toString()

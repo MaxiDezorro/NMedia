@@ -11,8 +11,11 @@
     <string name="share_amount" translatable="false">777</string>
     <string name="menu_remove">Remove</string>
     <string name="post_text">post text</string>
-    <string name="error_empty_content">content cannot be empty</string>
-    <string name="button_save_post">button save Post</string>
+    <string name="error_empty_content">Сontent cannot be empty</string>
+    <string name="description_button_save_post">button save Post</string>
+    <string name="description_button_new_post">button create new Post</string>
+    <string name="description_link_video">link to video</string>
+    <string name="description_button_link_video">button link to video</string>
     <string name="menu_edit">Edit</string>
     <string name="edit_message">Edit message</string>
     <string name="description_cancel_edit_button">cancel edit button</string>

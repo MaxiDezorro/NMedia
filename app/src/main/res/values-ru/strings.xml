@@ -8,8 +8,11 @@
     <string name="description_share_button">Кнопка поделиться</string>
     <string name="menu_remove">Удалить</string>
     <string name="post_text">текст поста</string>
-    <string name="error_empty_content">контент не может быть пуст</string>
-    <string name="button_save_post">кнопка сохранить пост</string>
+    <string name="error_empty_content">Контент не может быть пуст</string>
+    <string name="description_button_save_post">Кнопка сохранить пост</string>
+    <string name="description_button_new_post">Кнопка создать новый пост</string>
+    <string name="description_link_video">Ссылка на видео</string>
+    <string name="description_button_link_video">Кнопка ссылка на видео</string>
     <string name="menu_edit">Реактировать</string>
     <string name="edit_message">Редактируйте сообщение</string>
     <string name="description_cancel_edit_button">Кнопка отмены редактирования</string>

@@ -73,7 +73,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             content = "Знаний хватит на всех: на следующей неделе разбираемся с разработкой мобильных приложений, учимся рассказывать истории и составлять PR-стратегию прямо на бесплатных занятиях \uD83D\uDC47",
             published = "18 сентября в 10:12",
             countLikes = 20,
-            likeByMe = false
+            likeByMe = false,
+            videoURL = "https://github.com/netology-code/and2-homeworks/tree/master/09_navigation"
         ),
         Post(
             id = nextId++,
