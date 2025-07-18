@@ -15,7 +15,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             content = "Освоение новой профессии — это не только открывающиеся возможности и перспективы, но и настоящий вызов самому себе. Приходится выходить из зоны комфорта и перестраивать привычный образ жизни: менять распорядок дня, искать время для занятий, быть готовым к возможным неудачам в начале пути. В блоге рассказали, как избежать стресса на курсах профпереподготовки → http://netolo.gy/fPD",
             published = "23 сентября в 10:12",
             countLikes = 90,
-            likeByMe = false
+            likeByMe = false,
+            videoURL = "https://rutube.ru/live/video/9f87a9a0cecbe773be6fddcbd93585ac/"
         ),
         Post(
             id = nextId++,
@@ -31,7 +32,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             content = "Таймбоксинг — отличный способ навести порядок в своём календаре и разобраться с делами, которые долго откладывали на потом. Его главный принцип — на каждое дело заранее выделяется определённый отрезок времени. В это время вы работаете только над одной задачей, не переключаясь на другие. Собрали советы, которые помогут внедрить таймбоксинг \uD83D\uDC47\uD83C\uDFFB",
             published = "22 сентября в 10:12",
             countLikes = 70,
-            likeByMe = false
+            likeByMe = false,
+            videoURL = "https://www.youtube.com/watch?v=a_FQ93Laqvs&t=435s"
         ),
         Post(
             id = nextId++,

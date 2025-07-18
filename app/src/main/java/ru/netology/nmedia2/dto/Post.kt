@@ -8,5 +8,6 @@ data class Post(
     val countLikes: Int = 999,
     val likeByMe: Boolean = false,
     var countShare: Int = 999,
-    var countViews: Int = 6399456
+    var countViews: Int = 6399456,
+    val videoURL: String? = null
 )

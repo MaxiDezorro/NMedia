@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import ru.netology.nmedia2.R
 import ru.netology.nmedia2.adapter.OnInteractorListener
@@ -67,6 +68,14 @@ class MainActivity : AppCompatActivity() {
                 viewModel.edit(post)
                 editPostLauncher.launch(post.content)
             }
+
+            override fun onPlayVideoIntent(post: Post) {
+                val intent = Intent()
+                    intent.action = Intent.ACTION_VIEW
+                    intent.data = post.videoURL?.toUri()
+
+                startActivity(intent)
+            }
         })
 
 
@@ -96,8 +105,6 @@ class MainActivity : AppCompatActivity() {
             newPostLauncher.launch()  // запускаем вызов нового экрана
 
         }
-
-
 
         viewModel.edited.observe(this) { post ->
             if (post.id == 0) {
