@@ -31,11 +31,13 @@ class MainActivity : AppCompatActivity() {
         // в метод inflate передаем (layoutInflater) - поле класса AppCompatActivity - создает из верстки вьюшку по разметке
         setContentView(binding.root) // предаем binding, и с корневой вью передаем идентификатор root
 
-        val editPostLauncher =
-            registerForActivityResult(EditPostResultContract()) { content ->
-                content ?: return@registerForActivityResult
-                viewModel.changeContent(content)
-                viewModel.save()
+        val editPostLauncher = registerForActivityResult(EditPostResultContract()) { content ->
+                if (content == null) {
+                    viewModel.clearEdit()
+                } else {
+                    viewModel.changeContent(content)
+                    viewModel.save()
+                }
             }
 
         val adapter = PostAdapter(object : OnInteractorListener {
@@ -71,8 +73,8 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPlayVideoIntent(post: Post) {
                 val intent = Intent()
-                    intent.action = Intent.ACTION_VIEW
-                    intent.data = post.videoURL?.toUri()
+                intent.action = Intent.ACTION_VIEW
+                intent.data = post.videoURL?.toUri()
 
                 startActivity(intent)
             }

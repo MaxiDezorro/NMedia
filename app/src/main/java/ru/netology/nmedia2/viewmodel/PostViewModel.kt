@@ -43,12 +43,16 @@ class PostViewModel : ViewModel() {
         edited.value?.let {
             repository.save(it) // сохраняем новый пост
         }
-        edited.value = empty // устанавливаем в edited значение пустого поста
+        clearEdit()
     }
 
     fun edit(post: Post) {
        edited.value = post
 
+    }
+
+    fun clearEdit(){
+        edited.value = empty // устанавливаем в edited значение пустого поста
     }
 
 }

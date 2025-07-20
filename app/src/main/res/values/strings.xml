@@ -15,7 +15,7 @@
     <string name="description_button_save_post">button save Post</string>
     <string name="description_button_new_post">button create new Post</string>
     <string name="description_link_video">link to video</string>
-    <string name="description_button_link_video">button link to video</string>
+    <string name="description_button_link_video">link to video</string>
     <string name="menu_edit">Edit</string>
     <string name="edit_message">Edit message</string>
     <string name="description_cancel_edit_button">cancel edit button</string>
