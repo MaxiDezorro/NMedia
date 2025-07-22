@@ -13,7 +13,7 @@
     <string name="description_button_new_post">Кнопка создать новый пост</string>
     <string name="description_link_video">Ссылка на видео</string>
     <string name="description_button_link_video">Кнопка ссылка на видео</string>
-    <string name="menu_edit">Реактировать</string>
+    <string name="menu_edit">Редактировать</string>
     <string name="edit_message">Редактируйте сообщение</string>
     <string name="description_cancel_edit_button">Кнопка отмены редактирования</string>
     <string name="description_edit_mode_icon">Иконка режима редактирования</string>
