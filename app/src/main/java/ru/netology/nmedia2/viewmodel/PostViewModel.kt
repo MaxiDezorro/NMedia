@@ -1,11 +1,15 @@
 package ru.netology.nmedia2.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.netology.nmedia2.dto.Post
 import ru.netology.nmedia2.repository.PostRepository
+import ru.netology.nmedia2.repository.PostRepositoryFileImpl
 import ru.netology.nmedia2.repository.PostRepositoryInMemoryImpl
+import ru.netology.nmedia2.repository.PostRepositorySharedPreferencesImpl
 
 private val empty = Post(
     id = 0,
@@ -15,9 +19,10 @@ private val empty = Post(
     likeByMe = false
 )
 
-class PostViewModel : ViewModel() {
+//     class PostViewModel : ViewModel() { // заменяем ViewModel на AndroidViewModel  чтоб получить доступ к context
+class PostViewModel(application: Application): AndroidViewModel(application) {
     private val repository: PostRepository =
-        PostRepositoryInMemoryImpl() // предоставляем достуа к репозиторию через
+        PostRepositoryFileImpl(application) // предоставляем достуа к репозиторию через
     // интерфейс PostRepository. можем обратиться к методам только этого интерфейса
 
     val data: LiveData<List<Post>> = repository.getAll() // на это поле подписана activity

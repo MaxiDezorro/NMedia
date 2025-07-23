@@ -7,27 +7,34 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.netology.nmedia2.dto.Post
+import kotlin.math.max
 
 // Application context
-class PostRepositorySharedPreferencesImpl(context: Context) : PostRepository {
-
-    private val pref = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+class PostRepositoryFileImpl(private val context: Context) : PostRepository {
 
     private var nextId: Int = 1
     private var posts = emptyList<Post>()
         set(value) {
             field = value // field - клчевое слово для доступа к текущему значению поля
             sync()
+            data.value = posts //  в data записываем новое состояние posta через метод value
+            // обновляем данные в MutableLiveData
         }
     private val data = MutableLiveData(posts) // изменяемая LiveData от posts
 
     init {
-        pref.getString(POSTS_KEY, null)?.let { json ->
-            posts = gson.fromJson(json, type)
+        val file = context.filesDir.resolve(FILE_NAME)
 
-            data.value = posts
-            nextId = (posts.maxOfOrNull { it.id } ?: 0) + 1
+        if (file.exists()) {
+            file.bufferedReader().use { reader ->
+                posts = gson.fromJson(reader, type)
+
+                nextId = (posts.maxOfOrNull { it.id } ?: 0) + 1
+            }
+        } else {
+            sync()
         }
+
     }
 
     override fun getAll(): LiveData<List<Post>> {
@@ -41,7 +48,7 @@ class PostRepositorySharedPreferencesImpl(context: Context) : PostRepository {
                 countLikes = if (!post.likeByMe) post.countLikes + 1 else post.countLikes - 1
             )
         }
-        data.value = posts //  в data записываем новое состояние posta через метод value
+
     }
 
     override fun shareById(id: Int) {
@@ -49,7 +56,7 @@ class PostRepositorySharedPreferencesImpl(context: Context) : PostRepository {
             if (it.id != id) it
             else it.copy(countShare = it.countShare + 1)
         }
-        data.value = posts
+
     }
 
     override fun removeById(id: Int) {
@@ -71,19 +78,19 @@ class PostRepositorySharedPreferencesImpl(context: Context) : PostRepository {
                 if (post.id != it.id) it else it.copy(content = post.content)
             }
         }
-        data.value = posts // обновляем данные в MutableLiveData
+
     }
 
     private fun sync() {
-        pref.edit() {
-            putString(POSTS_KEY, gson.toJson(posts, type))
-        }
+       context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE).bufferedWriter().use { writer ->
+           writer.write(gson.toJson(posts, type))
+
+       }
     }
 
     companion object { // статичная область памяти для констант
         // const поля будут созданы при компиляции, константу нельзя создать внутри класса
-        private const val SHARED_PREF_NAME = "repo"
-        private const val POSTS_KEY = "posts"
+        private const val FILE_NAME = "posts.json"
         private val gson = Gson()  // экземпляр класса
         private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
 
