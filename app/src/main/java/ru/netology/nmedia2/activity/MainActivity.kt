@@ -72,10 +72,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onPlayVideoIntent(post: Post) {
-                val intent = Intent()
-                intent.action = Intent.ACTION_VIEW
-                intent.data = post.videoURL?.toUri()
-
+                val intent = Intent()  // Создаем новый не явный Intent
+                intent.action = Intent.ACTION_VIEW // Указываем действие "просмотр"
+                intent.data = post.videoURL?.toUri() // Преобразуем URL видео в Uri
                 startActivity(intent)
             }
         })
@@ -113,52 +112,6 @@ class MainActivity : AppCompatActivity() {
                 return@observe
             }
         }
-//                with(binding) {
-//                    editGroup.visibility = View.VISIBLE // показываем группу редактирования
-//                    content.setText(post.content) // текст редактируемого поста устанавливаем в content
-//                    AndroidUtils.showKeyboard(content) // показ клавиатуры
-//                    editMessageContent.text =
-//                        post.content // текст редактируемого поста устанавливаем в editMessageContent
-//
-//                    editClose.setOnClickListener {
-//                        editGroup.visibility = View.GONE // скрываем группу
-//                        content.clearFocus() // убираем фокус
-//                        AndroidUtils.hideKeyboard(it) // убираем клавиатуру
-//                        viewModel.changeContent(editMessageContent.text.toString())
-//                        viewModel.save()
-//                        content.setText("")
-//
-//                    }
-//
-//
-//                }
-//            }
-//        }
-//        with(binding) {
-//            savePost.setOnClickListener {
-//
-////                editGroup.visibility = View.GONE // почему-то не скрывает группу редактирования только когда редактируем и сохраняем
-//
-//                if (content.text.isNullOrBlank()) { // проверяем есть ли текст в content
-//                    Toast.makeText( // всплывающее сообщение
-//                        this@MainActivity,// context наша MainActivity
-//                        R.string.error_empty_content, // ресурс или текст отображаемый
-//                        Toast.LENGTH_SHORT // константа  время отображения сообщения
-//                    ).show()
-//                    return@setOnClickListener // если текст был пустой - заранее выходим из обработчика
-//                }
-//
-//                viewModel.changeContent(content.text.toString()) // вызываем методы именения
-//                viewModel.save() // и сохранения текста
-//
-//                editGroup.isVisible = false
-////                editGroup.visibility = View.GONE // работает корректно
-//
-//                content.setText("")  // устанавливаем пустое поле ввода, после добавления поста
-//                content.clearFocus() // убираем фокус
-//                AndroidUtils.hideKeyboard(it) // скрыть клавиатуру (передаем вью)
-//            }
-//        }
     }
 }
 

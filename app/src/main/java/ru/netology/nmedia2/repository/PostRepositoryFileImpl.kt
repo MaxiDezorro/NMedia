@@ -13,7 +13,7 @@ import kotlin.math.max
 class PostRepositoryFileImpl(private val context: Context) : PostRepository {
 
     private var nextId: Int = 1
-    private var posts = emptyList<Post>()
+    private var posts = emptyList<Post>() // val не имеет сеттера
         set(value) {
             field = value // field - клчевое слово для доступа к текущему значению поля
             sync()

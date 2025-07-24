@@ -8,10 +8,18 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.netology.nmedia2.dto.Post
 
+/** SharedPreferences - спец API позволяющее хранить данные примитивных типов(Boolen, строки ) в виде пар ключ:значение
+ *
+ *
+ * **/
+
 // Application context
 class PostRepositorySharedPreferencesImpl(context: Context) : PostRepository {
 
-    private val pref = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+    private val pref = context.getSharedPreferences(
+        SHARED_PREF_NAME, // имя файла на устройстве
+        Context.MODE_PRIVATE  // тип приватности(доступа)
+    )
 
     private var nextId: Int = 1
     private var posts = emptyList<Post>()
@@ -21,11 +29,11 @@ class PostRepositorySharedPreferencesImpl(context: Context) : PostRepository {
         }
     private val data = MutableLiveData(posts) // изменяемая LiveData от posts
 
-    init {
-        pref.getString(POSTS_KEY, null)?.let { json ->
-            posts = gson.fromJson(json, type)
+    init { // логика для заполнения полей posts, data
+        pref.getString(POSTS_KEY, null)?.let { json ->  // извлекаем данные по ключу, если данных нет получаем null(или значение по умолчанию)
+            posts = gson.fromJson(json, type) // преобразуем стринг в список постов
 
-            data.value = posts
+            data.value = posts // записываем полученные посты в livedata
             nextId = (posts.maxOfOrNull { it.id } ?: 0) + 1
         }
     }
@@ -74,18 +82,25 @@ class PostRepositorySharedPreferencesImpl(context: Context) : PostRepository {
         data.value = posts // обновляем данные в MutableLiveData
     }
 
-    private fun sync() {
+    private fun sync() {  // сохраняем данные
         pref.edit() {
-            putString(POSTS_KEY, gson.toJson(posts, type))
+            putString(
+                POSTS_KEY, // по ключу
+                gson.toJson(posts, type) // сериализуем список постов в json строку с учетом type
+            )
         }
     }
 
     companion object { // статичная область памяти для констант
         // const поля будут созданы при компиляции, константу нельзя создать внутри класса
-        private const val SHARED_PREF_NAME = "repo"
-        private const val POSTS_KEY = "posts"
+        private const val SHARED_PREF_NAME = "repo" // имя файла на устройстве
+        private const val POSTS_KEY = "posts" // ключ для списка постов
         private val gson = Gson()  // экземпляр класса
+
         private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
+            // type указываем какого типа данные будут храниться(передаем ссылки) и получаем тип
+    /** Объясняем JSON что мы отим получить List из Post  **/
+
 
     }
 }
