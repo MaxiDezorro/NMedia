@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ru.netology.nmedia2.dto.Post
-import kotlin.math.max
 
 // Application context
 class PostRepositoryFileImpl(private val context: Context) : PostRepository {
@@ -23,16 +22,16 @@ class PostRepositoryFileImpl(private val context: Context) : PostRepository {
     private val data = MutableLiveData(posts) // изменяемая LiveData от posts
 
     init {
-        val file = context.filesDir.resolve(FILE_NAME)
+        val file = context.filesDir.resolve(FILE_NAME) // получаем ссылку на объект типа File с именем FILE_NAME
 
-        if (file.exists()) {
-            file.bufferedReader().use { reader ->
-                posts = gson.fromJson(reader, type)
+        if (file.exists()) { // если файл есть - читаем
+            file.bufferedReader().use { reader -> // читаем через буфер //todo метод use сам закрывает ресурс
+                posts = gson.fromJson(reader, type) // преобразуем reader в список постов
 
                 nextId = (posts.maxOfOrNull { it.id } ?: 0) + 1
             }
         } else {
-            sync()
+            sync() // если нет файла создаем файл с пустым массивом
         }
 
     }
@@ -83,7 +82,7 @@ class PostRepositoryFileImpl(private val context: Context) : PostRepository {
 
     private fun sync() {
        context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE).bufferedWriter().use { writer ->
-           writer.write(gson.toJson(posts, type))
+           writer.write(gson.toJson(posts, type)) // записываем новые посты в файл
 
        }
     }
