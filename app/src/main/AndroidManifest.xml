@@ -16,7 +16,7 @@
             android:name=".activity.EditPostActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ActivityDataReception"
+            android:name=".activity.AppActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -25,13 +25,6 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.NewPostFragment"
-            android:exported="false" />
-        <activity
-            android:name=".activity.FeedFragment"
-            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

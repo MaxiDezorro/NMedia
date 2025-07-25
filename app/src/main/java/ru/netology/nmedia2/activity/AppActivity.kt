@@ -2,16 +2,14 @@ package ru.netology.nmedia2.activity
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia2.R
-import ru.netology.nmedia2.databinding.AcDataReceptionBinding
+import ru.netology.nmedia2.activity.FeedFragment.Companion.textArgs
+import ru.netology.nmedia2.databinding.ActivityAppBinding
 
-class ActivityDataReception : AppCompatActivity() {
+class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
@@ -21,7 +19,7 @@ class ActivityDataReception : AppCompatActivity() {
 //            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
 //            insets
 //        }
-        val binding = AcDataReceptionBinding.inflate(layoutInflater)
+        val binding = ActivityAppBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
@@ -41,8 +39,12 @@ class ActivityDataReception : AppCompatActivity() {
                 return@let
             }
 
-            // todo else {обрабатываем текст }
-            binding.content.setText(text)
+            findNavController(R.id.nav_host_fragment).navigate(
+                R.id.action_feedFragment_to_newPostFragment,
+                Bundle().apply {
+                    textArgs = text
+                }
+            )
         }
 
     }

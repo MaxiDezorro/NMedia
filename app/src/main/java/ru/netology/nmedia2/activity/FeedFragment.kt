@@ -15,12 +15,13 @@ import ru.netology.nmedia2.adapter.OnInteractorListener
 import ru.netology.nmedia2.adapter.PostAdapter
 import ru.netology.nmedia2.databinding.FragmentFeedBinding
 import ru.netology.nmedia2.dto.Post
+import ru.netology.nmedia2.util.SringArg
 import ru.netology.nmedia2.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
 
 
-    private val viewModel: PostViewModel by viewModels() //todo функция viewModels позволяет предоставить ссылку на ту же viewModel после смены конфигураций(поворот экрана)
+    private val viewModel: PostViewModel by viewModels(::requireParentFragment) //todo функция viewModels позволяет предоставить ссылку на ту же viewModel после смены конфигураций(поворот экрана)
     // после смены конфигураций, когда создается новый экземпляр MainActivity в viewModel будет ссылка на старую вьюмодель
     // viewModel будет создана только при первом обрщении к ней (Lazy - ленивая инициализация)
 
@@ -114,6 +115,9 @@ class FeedFragment : Fragment() {
             }
         }
         return binding.root
+    }
+    companion object{
+        var Bundle.textArgs by SringArg
     }
 }
 
