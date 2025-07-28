@@ -1,4 +1,4 @@
-package ru.netology.nmedia2.activity
+package ru.netology.nmedia2.fragment
 
 import android.content.Intent
 import android.os.Bundle

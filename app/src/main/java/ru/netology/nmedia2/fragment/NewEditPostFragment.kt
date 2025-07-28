@@ -1,4 +1,4 @@
-package ru.netology.nmedia2.activity
+package ru.netology.nmedia2.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia2.R
-import ru.netology.nmedia2.activity.FeedFragment.Companion.textArgs
 import ru.netology.nmedia2.databinding.FragmentNewEditPostBinding
+import ru.netology.nmedia2.fragment.FeedFragment.Companion.textArgs
 import ru.netology.nmedia2.util.AndroidUtils
 import ru.netology.nmedia2.viewmodel.PostViewModel
 

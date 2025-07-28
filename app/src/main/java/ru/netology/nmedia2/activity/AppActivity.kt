@@ -2,14 +2,11 @@ package ru.netology.nmedia2.activity
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia2.R
-import ru.netology.nmedia2.activity.FeedFragment.Companion.textArgs
+import ru.netology.nmedia2.fragment.FeedFragment.Companion.textArgs
 import ru.netology.nmedia2.databinding.ActivityAppBinding
 
 class AppActivity : AppCompatActivity() {

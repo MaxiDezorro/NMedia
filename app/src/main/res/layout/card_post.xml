@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/general_spacing_16dp"
     android:visibility="visible"
-    tools:context=".activity.FeedFragment">
+    tools:context=".fragment.FeedFragment">
 
     <ImageView
         android:id="@+id/avatar"

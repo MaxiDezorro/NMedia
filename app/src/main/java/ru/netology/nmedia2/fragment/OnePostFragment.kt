@@ -1,4 +1,4 @@
-package ru.netology.nmedia2.activity
+package ru.netology.nmedia2.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia2.R
-import ru.netology.nmedia2.activity.FeedFragment.Companion.textArgs
 import ru.netology.nmedia2.adapter.OnInteractorListener
 import ru.netology.nmedia2.adapter.bind
 import ru.netology.nmedia2.databinding.FragmentSinglePostBinding
 import ru.netology.nmedia2.dto.Post
+import ru.netology.nmedia2.fragment.FeedFragment.Companion.textArgs
 import ru.netology.nmedia2.viewmodel.PostViewModel
 
 class OnePostFragment : Fragment() {
@@ -35,19 +35,19 @@ class OnePostFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-val onInteractorListener = object:  OnInteractorListener {
+val onInteractorListener = object: OnInteractorListener {
     override fun onLike(post: Post) {
         viewModel.likeById(post.id)
     }
 
     override fun onShare(post: Post) {
         // не явный интент
-        val intent = Intent().apply { // создаем интент и настраиваем через apply
-            action = Intent.ACTION_SEND // константа означающая что отправляем данные
-            putExtra(Intent.EXTRA_TEXT, post.content)// кладем в интент
+        val intent = Intent()
+            intent.action = Intent.ACTION_SEND // константа означающая что отправляем данные
+            intent.putExtra(Intent.EXTRA_TEXT, post.content)// кладем в интент
             // (ключ для передаваемых данных(EXTRA_TEXT) и данные(контент поста))
-            type = "text/plain" //означает что передаем стандартный тип текстового поля
-        }
+            intent.type = "text/plain" //означает что передаем стандартный тип текстового поля
+
         val shareIntent =
             Intent.createChooser(intent, getString(R.string.chooser_share_post))
         // создаем интент на показ Choser'a(меню выбора), куда передаем (интент и стринг(сообщение в меню(название))
