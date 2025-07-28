@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.launch
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -38,15 +37,6 @@ class FeedFragment : Fragment() {
             ) // генерируется класс по имени нашего lauout .xml
 
 
-        val editPostLauncher = registerForActivityResult(EditPostResultContract()) { content ->
-                if (content == null) {
-                    viewModel.clearEdit()
-                } else {
-                    viewModel.changeContent(content)
-                    viewModel.save()
-                }
-            }
-
         val adapter = PostAdapter(object : OnInteractorListener {
             override fun onLike(post: Post) {
                 viewModel.likeById(post.id)
@@ -75,7 +65,13 @@ class FeedFragment : Fragment() {
 
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
-                editPostLauncher.launch(post.content)
+                val text = post.content
+                findNavController().navigate(
+                    R.id.action_feedFragment_to_newPostFragment,
+                    Bundle().apply {
+                        textArgs = text
+                    })
+
             }
 
             override fun onPlayVideoIntent(post: Post) {
@@ -83,6 +79,15 @@ class FeedFragment : Fragment() {
                 intent.action = Intent.ACTION_VIEW // Указываем действие "просмотр"
                 intent.data = post.videoURL?.toUri() // Преобразуем URL видео в Uri
                 startActivity(intent)
+            }
+
+            override fun onOnePostOpen(post: Post) {
+                findNavController().navigate(
+                    R.id.action_feedFragment_to_onePostFragment,
+                    Bundle().apply {
+                        putInt("postId", post.id) // Теперь Bundle передается с навигацией
+                    }
+                )
             }
         })
 
@@ -109,14 +114,17 @@ class FeedFragment : Fragment() {
 
         }
 
+
         viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id == 0) {
                 return@observe
             }
+
         }
         return binding.root
     }
-    companion object{
+
+    companion object {
         var Bundle.textArgs by SringArg
     }
 }

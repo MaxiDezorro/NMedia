@@ -10,30 +10,31 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia2.R
 import ru.netology.nmedia2.activity.FeedFragment.Companion.textArgs
-import ru.netology.nmedia2.databinding.FragmentNewPostBinding
+import ru.netology.nmedia2.databinding.FragmentNewEditPostBinding
 import ru.netology.nmedia2.util.AndroidUtils
 import ru.netology.nmedia2.viewmodel.PostViewModel
 
-class NewPostFragment : Fragment() {
+class NewEditPostFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentNewPostBinding.inflate(
+        val binding = FragmentNewEditPostBinding.inflate(
             inflater,
             container,
             false
         )
         val viewModel: PostViewModel by viewModels(::requireParentFragment)
 
+//        arguments?.textArgs.let(binding.edit::setText) // вызываем метод setText на аргументе через ссылку
+
         arguments?.textArgs.let {
             binding.edit.setText(it)
         }
         binding.edit.requestFocus()
         AndroidUtils.showKeyboard(binding.edit)
-
 
         binding.savePost.setOnClickListener { // обрабатываем нажатие на кнопку
             if (binding.edit.text.isNotBlank()) { // проверяем текст
@@ -45,8 +46,10 @@ class NewPostFragment : Fragment() {
                 Toast.makeText(context, R.string.error_empty_content, Toast.LENGTH_LONG).show()
             }
 
+
             findNavController().navigateUp() // возвращаемся по графу на предыдущий экран
         }
         return binding.root
+
     }
 }

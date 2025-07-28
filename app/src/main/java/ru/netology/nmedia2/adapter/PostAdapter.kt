@@ -22,6 +22,8 @@ interface OnInteractorListener {
     fun onRemove(post: Post)
     fun onEdit(post: Post)
     fun onPlayVideoIntent(post: Post)
+
+    fun onOnePostOpen(post: Post)
 }
 
 class PostAdapter(
@@ -74,19 +76,15 @@ class PostViewHolder(
 
             share.text = showHowManyIntToString(post.countShare)
 
-            if (post.videoURL != null){
+            if (post.videoURL != null) {
                 videoLayout.visibility = View.VISIBLE
             } else {
                 videoLayout.visibility = View.GONE
             }
 
-            video.setOnClickListener {
+            videoLayout.setOnClickListener {
                 onInteractorListener.onPlayVideoIntent(post)
             }
-            playVideo.setOnClickListener {
-                onInteractorListener.onPlayVideoIntent(post)
-            }
-
 
 
             like.setOnClickListener { // дергаем лямбду
@@ -118,6 +116,10 @@ class PostViewHolder(
                         }
                     }
                 }.show()
+            }
+
+            content.setOnClickListener {
+                onInteractorListener.onOnePostOpen(post)
             }
 
         }
