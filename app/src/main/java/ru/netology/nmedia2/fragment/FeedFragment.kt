@@ -82,6 +82,7 @@ class FeedFragment : Fragment() {
             }
 
             override fun onOnePostOpen(post: Post) {
+                viewModel.viewById(post.id)
                 findNavController().navigate(
                     R.id.action_feedFragment_to_onePostFragment,
                     Bundle().apply {
@@ -110,6 +111,7 @@ class FeedFragment : Fragment() {
 
 
         binding.newPost.setOnClickListener {
+            viewModel.clearEdit()
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)  // запускаем вызов нового экрана
 
         }

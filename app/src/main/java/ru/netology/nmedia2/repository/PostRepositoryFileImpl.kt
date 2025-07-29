@@ -80,6 +80,13 @@ class PostRepositoryFileImpl(private val context: Context) : PostRepository {
 
     }
 
+    override fun viewById(id: Int) {
+        posts = posts.map {
+            if (it.id != id) it
+            else it.copy(countViews = it.countViews + 1)
+        }
+    }
+
     private fun sync() {
        context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE).bufferedWriter().use { writer ->
            writer.write(gson.toJson(posts, type)) // записываем новые посты в файл

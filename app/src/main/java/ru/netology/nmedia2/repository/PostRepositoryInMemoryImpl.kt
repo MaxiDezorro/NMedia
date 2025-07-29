@@ -133,4 +133,11 @@ class PostRepositoryInMemoryImpl : PostRepository {
         }
         data.value = posts // обновляем данные в MutableLiveData
     }
+
+    override fun viewById(id: Int) {
+        posts = posts.map {
+            if (it.id != id) it
+            else it.copy(countViews = it.countViews + 1)
+        }
+    }
 }

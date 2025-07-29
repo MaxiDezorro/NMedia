@@ -33,6 +33,8 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
     fun shareById(id: Int) = repository.shareById(id) // поделиться
     fun removeById(id: Int) = repository.removeById(id) // удалить
 
+    fun viewById(id: Int) = repository.viewById(id) // просмотры
+
     fun changeContent(content: String) {
         val text = content.trim() // убераем пробелы в начале и конце
         edited.value?.let {  // берем значение из edited

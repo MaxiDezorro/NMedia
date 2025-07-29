@@ -31,8 +31,9 @@ class NewEditPostFragment : Fragment() {
 //        arguments?.textArgs.let(binding.edit::setText) // вызываем метод setText на аргументе через ссылку
 
         arguments?.textArgs.let {
-            binding.edit.setText(it)
+         binding.edit.setText(it)
         }
+
         binding.edit.requestFocus()
         AndroidUtils.showKeyboard(binding.edit)
 
