@@ -14,7 +14,7 @@ import ru.netology.nmedia2.adapter.OnInteractorListener
 import ru.netology.nmedia2.adapter.PostAdapter
 import ru.netology.nmedia2.databinding.FragmentFeedBinding
 import ru.netology.nmedia2.dto.Post
-import ru.netology.nmedia2.util.SringArg
+import ru.netology.nmedia2.util.StringArg
 import ru.netology.nmedia2.viewmodel.PostViewModel
 
 class FeedFragment : Fragment() {
@@ -127,7 +127,7 @@ class FeedFragment : Fragment() {
     }
 
     companion object {
-        var Bundle.textArgs by SringArg
+        var Bundle.textArgs by StringArg
     }
 }
 
