@@ -5,9 +5,9 @@ data class Post(
     val author: String,
     val published: String,
     val content: String,
-    val countLikes: Int = 999,
+    val countLikes: Int = 0,
     val likeByMe: Boolean = false,
-    val countShare: Int = 999,
-    val countViews: Int = 639,
+    val countShare: Int = 0,
+    val countViews: Int = 0,
     val videoURL: String? = null
 )

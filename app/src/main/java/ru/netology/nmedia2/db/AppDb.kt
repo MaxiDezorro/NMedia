@@ -8,6 +8,8 @@ import ru.netology.nmedia2.dao.PostDaoImpl
 
 class AppDb private constructor(db: SQLiteDatabase) {
 
+    /** класс для хранения бд в одном экземпляре **/
+
     val postDao: PostDao = PostDaoImpl(db)
 
     companion object {
@@ -28,6 +30,7 @@ class AppDb private constructor(db: SQLiteDatabase) {
     }
 }
 
+/** DbHelper - сборка базы **/
 class DbHelper(context: Context, dbVersion: Int, dbName: String, private val DDLs: Array<String>) :
     SQLiteOpenHelper(context, dbName, null, dbVersion) {
     override fun onCreate(db: SQLiteDatabase) {

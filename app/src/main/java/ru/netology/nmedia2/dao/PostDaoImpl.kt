@@ -1,5 +1,6 @@
 package ru.netology.nmedia2.dao
 
+import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import ru.netology.nmedia2.dto.Post
@@ -19,7 +20,9 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
             ${PostColumns.COLUMN_VIDEO_URL} TEXT
         );
         """.trimIndent() // .trimIndent() удаляет общие отступы для всех строк
-    }  /**  DDL """ многострочная строка """ DDL (Data Definition Language) - это язык определения данных в SQL
+    }
+
+    /**  DDL """ многострочная строка """ DDL (Data Definition Language) - это язык определения данных в SQL
     Это SQL-команда для создания структуры таблицы
     Хранится как строковая константа в companion object
      **/
@@ -48,32 +51,111 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
 
     }
 
+    /** Параметры query():
 
+    Таблица — PostColumns.TABLE ("posts")
 
+    Колонки — все колонки из PostColumns.ALL_COLUMNS
 
+    WHERE — null (значит, выбираем все записи)
+
+    WHERE-аргументы — null (нет параметров для подстановки)
+
+    GROUP BY — null (не группируем)
+
+    HAVING — null (нет условий для групп)
+
+    ORDER BY — "id DESC" (сортировка по ID в порядке убывания)**/
 
     override fun getAll(): List<Post> {
-        TODO("Not yet implemented")
+        val posts = mutableListOf<Post>()
+        db.query(
+            PostColumns.TABLE,  // Таблица: "posts"
+            PostColumns.ALL_COLUMNS, // Все колонки (массив из PostColumns)
+            null, // WHERE условие (null = все записи)
+            null, // Аргументы для WHERE (нет)
+            null, // GROUP BY (нет)
+            null, // HAVING (нет)
+            "${PostColumns.COLUMN_ID} DESC"  // Сортировка по ID в обратном порядке
+        ).use { cursor ->
+            while (cursor.moveToNext()) { // Перебираем все строки результата
+                posts.add(map(cursor))  // Преобразуем строку в Post и добавляем в список
+            }
+        }
+        return posts
     }
 
     override fun save(post: Post): Post {
-        TODO("Not yet implemented")
+        val values  = ContentValues().apply {
+            // todo delete hardcoded value
+            put(PostColumns.COLUMN_AUTHOR, "me")
+            put(PostColumns.COLUMN_CONTENT, post.content)
+            put(PostColumns.COLUMN_PUBLISHED, "now")
+        }
+        val id = if (post.id != 0) {// если id  не 0, обновляем
+            db.update(
+                PostColumns.TABLE,
+                values,
+                "${PostColumns.COLUMN_ID} = ?",
+                arrayOf(post.id.toString()),
+            )
+            post.id
+        } else {
+            db.insert(PostColumns.TABLE, null, values)
+        }
+            db.query(
+                PostColumns.TABLE,
+                PostColumns.ALL_COLUMNS,
+                "${PostColumns.COLUMN_ID} = ?",
+                null,
+                null,
+                null,
+                null
+            ).use {
+                it.moveToNext()
+                return map(it)
+
+        }
     }
 
     override fun likeById(id: Int) {
-        TODO("Not yet implemented")
+        db.execSQL(
+            """
+                UPDATE posts SET
+                countLikes = countLikes + CASE WHEN likeByMe THEN -1 ELSE 1 END,
+                likeByMe = CASE WHEN likeByMe THEN 0 ELSE 1 END
+                WHERE id = ?;
+            """.trimIndent(),
+            arrayOf(id) // arrayOf(id) - подставляется вместо ? для защиты от инекций
+        )
     }
 
     override fun shareById(id: Int) {
-        TODO("Not yet implemented")
+        db.execSQL(
+            """
+                UPDATE ${PostColumns.TABLE} SET
+                ${PostColumns.COLUMN_SHARE} = ${PostColumns.COLUMN_SHARE} + 1
+                WHERE id = ?;
+            """.trimIndent(), arrayOf(id)
+        )
     }
 
     override fun removeById(id: Int) {
-        TODO("Not yet implemented")
+        db.delete(
+            PostColumns.TABLE,
+            "${PostColumns.COLUMN_ID} = ?",
+            arrayOf(id.toString())
+        )
     }
 
     override fun viewById(id: Int) {
-        TODO("Not yet implemented")
+        db.execSQL(
+            """
+                UPDATE ${PostColumns.TABLE} SET
+                ${PostColumns.COLUMN_VIEWS} = ${PostColumns.COLUMN_VIEWS} + 1
+                WHERE id = ?;
+            """.trimIndent(), arrayOf(id)
+        )
     }
 
     private fun map(cursor: Cursor): Post {  // преобразует данные из курсора SQLite в объект Post
