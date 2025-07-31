@@ -41,8 +41,8 @@ class NewEditPostFragment : Fragment() {
             if (binding.edit.text.isNotBlank()) { // проверяем текст
 
                 val content = binding.edit.text.toString()
-                viewModel.changeContent(content)
-                viewModel.save()
+
+                viewModel.saveChange(content)
             } else {
                 Toast.makeText(context, R.string.error_empty_content, Toast.LENGTH_LONG).show()
             }

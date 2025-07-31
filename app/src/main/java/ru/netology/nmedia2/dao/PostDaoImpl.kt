@@ -92,28 +92,28 @@ class PostDaoImpl(private val db: SQLiteDatabase) : PostDao {
             put(PostColumns.COLUMN_CONTENT, post.content)
             put(PostColumns.COLUMN_PUBLISHED, "now")
         }
-        val id = if (post.id != 0) {// если id  не 0, обновляем
+        val id = if (post.id != 0) {// если id  не 0, обновляем существующий
             db.update(
                 PostColumns.TABLE,
-                values,
-                "${PostColumns.COLUMN_ID} = ?",
-                arrayOf(post.id.toString()),
+                values,                                        // Новые значения
+                "${PostColumns.COLUMN_ID} = ?",  // Условие (по ID)
+                arrayOf(post.id.toString()),        // Параметр для условия
             )
-            post.id
-        } else {
+           post.id   // Возвращаем существующий ID
+        } else {  // Вставка нового поста
             db.insert(PostColumns.TABLE, null, values)
         }
             db.query(
                 PostColumns.TABLE,
                 PostColumns.ALL_COLUMNS,
                 "${PostColumns.COLUMN_ID} = ?",
-                null,
+                arrayOf(id.toString()),
                 null,
                 null,
                 null
             ).use {
-                it.moveToNext()
-                return map(it)
+                it.moveToNext()  // Переход к первой (и единственной) записи
+                return map(it) // Преобразование в объект Post
 
         }
     }

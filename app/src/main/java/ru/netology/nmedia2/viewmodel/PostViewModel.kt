@@ -4,12 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import ru.netology.nmedia2.db.AppDb
 import ru.netology.nmedia2.dto.Post
 import ru.netology.nmedia2.repository.PostRepository
-import ru.netology.nmedia2.repository.PostRepositoryFileImpl
-import ru.netology.nmedia2.repository.PostRepositoryInMemoryImpl
-import ru.netology.nmedia2.repository.PostRepositorySharedPreferencesImpl
+import ru.netology.nmedia2.repository.PostRepositorySQLiteImpl
 
 private val empty = Post(
     id = 0,
@@ -22,7 +20,7 @@ private val empty = Post(
 //     class PostViewModel : ViewModel() { // заменяем ViewModel на AndroidViewModel  чтоб получить доступ к context
 class PostViewModel(application: Application): AndroidViewModel(application) {
     private val repository: PostRepository =
-        PostRepositoryFileImpl(application) // предоставляем достуа к репозиторию через
+        PostRepositorySQLiteImpl(AppDb.getInstance(application).postDao) // предоставляем достуа к репозиторию через
     // интерфейс PostRepository. можем обратиться к методам только этого интерфейса
 
     val data: LiveData<List<Post>> = repository.getAll() // на это поле подписана activity
@@ -35,20 +33,14 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
 
     fun viewById(id: Int) = repository.viewById(id) // просмотры
 
-    fun changeContent(content: String) {
-        val text = content.trim() // убераем пробелы в начале и конце
-        edited.value?.let {  // берем значение из edited
-            if (text != it.content) {
-            edited.value = it.copy(content = text) // заменяем у текушего поста контент на новый текст
+
+
+    fun saveChange(content: String) {
+        edited.value?.let { // убераем пробелы в начале и конце
+            val text = content.trim() // убераем пробелы в начале и конце
+            if (it.content != text) {
+                repository.save(it.copy(content = text))
             }
-
-        }
-
-    }
-
-    fun save(){
-        edited.value?.let {
-            repository.save(it) // сохраняем новый пост
         }
         clearEdit()
     }
